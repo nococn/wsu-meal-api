@@ -1,0 +1,40 @@
+name: 식단 업데이트
+
+on:
+  schedule:
+    # GitHub cron은 UTC 기준. 정각은 몰려서 늦어지기 쉬워 몇 분 비켜 둔다
+    - cron: "10 15 * * *"      # 00:10 KST — today.json 날짜 갱신
+    - cron: "17 23,2,5 * * *"  # 08:17, 11:17, 14:17 KST — 식단 게시·수정 반영
+  workflow_dispatch: # Actions 탭에서 수동 실행
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-meals
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: 크롤링 및 JSON 생성
+        run: node build.mjs
+
+      - name: 바뀐 파일만 커밋
+        run: |
+          git add docs/api
+          if git diff --cached --quiet; then
+            echo "변경 없음"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: 식단 업데이트 $(TZ=Asia/Seoul date +%F)"
+          git push

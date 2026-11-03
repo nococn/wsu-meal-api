@@ -1,0 +1,11 @@
+{
+  "name": "wsu-meal",
+  "version": "1.0.0",
+  "description": "우송대학교 주간 학식 정적 JSON API",
+  "type": "module",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}
