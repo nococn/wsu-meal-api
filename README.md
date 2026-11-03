@@ -4,7 +4,7 @@
 
 ## API
 
-기본 주소: `https://<GitHub 아이디>.github.io/<저장소 이름>/api/`
+기본 주소: `https://sangukjeon.github.io/wsu-meal-api/api/`
 
 | 파일 | 내용 |
 |---|---|
@@ -15,7 +15,7 @@
 | `index.json` | 조회 가능한 날짜 목록 |
 
 ```js
-const res = await fetch("https://<아이디>.github.io/wsu-meal/api/date/2026-11-03.json");
+const res = await fetch("https://sangukjeon.github.io/wsu-meal-api/api/date/2026-11-03.json");
 const { data } = await res.json();
 // data["학생식당(서캠)"] → { "천원의아침밥": [...], "교직원": [...] }
 ```
